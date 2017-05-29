@@ -8,7 +8,10 @@ import com.romanventskus.telegram.framework.StateProvider;
 import com.romanventskus.telegram.framework.channel.OutputChannel;
 import com.romanventskus.telegram.framework.questions.Question;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class StartState extends State {
 
@@ -45,5 +48,10 @@ public class StartState extends State {
     @Override
     public Set<Question> getQuestions() {
         return Sets.newHashSet(whatIsYourName, whatIsYourAge);
+    }
+
+    @Override
+    public Map<String, Supplier<State>> getCommands() {
+        return new HashMap<>();
     }
 }

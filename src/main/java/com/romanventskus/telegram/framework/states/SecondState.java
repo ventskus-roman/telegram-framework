@@ -8,7 +8,10 @@ import com.romanventskus.telegram.framework.StateProvider;
 import com.romanventskus.telegram.framework.channel.OutputChannel;
 import com.romanventskus.telegram.framework.questions.Question;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * @author r.ventskus
@@ -27,5 +30,13 @@ public class SecondState extends State {
     @Override
     public Set<Question> getQuestions() {
         return Sets.newHashSet();
+    }
+
+    @Override
+    public Map<String, Supplier<State>> getCommands() {
+        Map<String, Supplier<State>> commands = new HashMap<>();
+        commands.put("/back", () -> new StartState(outputChannel, stateProvider));
+
+        return commands;
     }
 }

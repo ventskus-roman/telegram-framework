@@ -12,5 +12,5 @@ import lombok.Setter;
 public class Message {
 
     private User user;
-    private String message;
+    private String text;
 }

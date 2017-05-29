@@ -3,7 +3,10 @@ package com.romanventskus.telegram.framework;
 import com.romanventskus.telegram.framework.channel.OutputChannel;
 import com.romanventskus.telegram.framework.questions.Question;
 
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.function.Supplier;
 
 public abstract class State {
 
@@ -20,6 +23,12 @@ public abstract class State {
     abstract protected State handle(Message message);
 
     public State process(Message message) {
+        Supplier<State> command = getCommands().get(message.getText());
+        boolean isCommand = command != null;
+        if (isCommand) {
+            State newState = command.get();
+            return newState;
+        }
         if (currentQuestion == null) {
             return handle(message);
         } else {
@@ -28,9 +37,9 @@ public abstract class State {
     }
 
     private State processQuestion(Message message) {
-        boolean valid = currentQuestion.getValidator().test(message.getMessage());
+        boolean valid = currentQuestion.getValidator().test(message.getText());
         if (valid) {
-            currentQuestion.setAnswer(message.getMessage());
+            currentQuestion.setAnswer(message.getText());
             currentQuestion = null;
             return handle(message);
         } else {
@@ -40,6 +49,8 @@ public abstract class State {
     }
 
     abstract public Set<Question> getQuestions();
+
+    abstract public Map<String, Supplier<State>> getCommands();
 
     protected void ask(Question question) {
         currentQuestion = question;
