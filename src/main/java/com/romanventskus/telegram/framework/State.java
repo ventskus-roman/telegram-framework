@@ -23,15 +23,19 @@ public abstract class State {
         if (currentQuestion == null) {
             return handle(message);
         } else {
-            boolean valid = currentQuestion.getValidator().test(message.getMessage());
-            if (valid) {
-                currentQuestion.setAnswer(message.getMessage());
-                currentQuestion = null;
-                return handle(message);
-            } else {
-                outputChannel.send(currentQuestion.getInvalidMessage());
-                return this;
-            }
+            return processQuestion(message);
+        }
+    }
+
+    private State processQuestion(Message message) {
+        boolean valid = currentQuestion.getValidator().test(message.getMessage());
+        if (valid) {
+            currentQuestion.setAnswer(message.getMessage());
+            currentQuestion = null;
+            return handle(message);
+        } else {
+            outputChannel.send(currentQuestion.getInvalidMessage());
+            return this;
         }
     }
 
