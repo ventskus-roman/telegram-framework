@@ -1,4 +1,4 @@
-package com.romanventskus.telegram.framework;
+package com.romanventskus.bot.framework;
 
 /**
  * @author r.ventskus

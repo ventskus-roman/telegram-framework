@@ -1,4 +1,4 @@
-package com.romanventskus.telegram.framework;
+package com.romanventskus.bot.framework;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 public class Message {
 

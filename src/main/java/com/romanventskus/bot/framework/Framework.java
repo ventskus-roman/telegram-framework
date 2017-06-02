@@ -1,7 +1,7 @@
-package com.romanventskus.telegram.framework;
+package com.romanventskus.bot.framework;
 
-import com.romanventskus.telegram.framework.channel.InputChannel;
-import com.romanventskus.telegram.framework.channel.OutputChannel;
+import com.romanventskus.bot.framework.channel.InputChannel;
+import com.romanventskus.bot.framework.channel.OutputChannel;
 
 public class Framework {
 

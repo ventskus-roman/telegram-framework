@@ -1,12 +1,12 @@
-package com.romanventskus.telegram.framework.states;
+package com.romanventskus.bot.framework.states;
 
 import com.google.common.collect.Sets;
 
-import com.romanventskus.telegram.framework.Message;
-import com.romanventskus.telegram.framework.State;
-import com.romanventskus.telegram.framework.StateProvider;
-import com.romanventskus.telegram.framework.channel.OutputChannel;
-import com.romanventskus.telegram.framework.questions.Question;
+import com.romanventskus.bot.framework.channel.OutputChannel;
+import com.romanventskus.bot.framework.Message;
+import com.romanventskus.bot.framework.State;
+import com.romanventskus.bot.framework.StateProvider;
+import com.romanventskus.bot.framework.questions.Question;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class SecondState extends State {
 
     @Override
     public State handle(Message message) {
-        outputChannel.send("Second state");
+        outputChannel.send("Second state", message.getUser());
         return this;
     }
 

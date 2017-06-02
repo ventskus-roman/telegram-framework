@@ -1,4 +1,4 @@
-package com.romanventskus.telegram.framework.questions;
+package com.romanventskus.bot.framework.questions;
 
 import java.util.function.Predicate;
 

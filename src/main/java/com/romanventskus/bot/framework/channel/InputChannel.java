@@ -1,6 +1,6 @@
-package com.romanventskus.telegram.framework.channel;
+package com.romanventskus.bot.framework.channel;
 
-import com.romanventskus.telegram.framework.Message;
+import com.romanventskus.bot.framework.Message;
 
 import java.util.function.Consumer;
 

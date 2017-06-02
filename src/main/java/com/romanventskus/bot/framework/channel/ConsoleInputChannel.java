@@ -1,7 +1,7 @@
-package com.romanventskus.telegram.framework.channel;
+package com.romanventskus.bot.framework.channel;
 
-import com.romanventskus.telegram.framework.Message;
-import com.romanventskus.telegram.framework.User;
+import com.romanventskus.bot.framework.User;
+import com.romanventskus.bot.framework.Message;
 
 import java.io.BufferedReader;
 import java.io.IOException;

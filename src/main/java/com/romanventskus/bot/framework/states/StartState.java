@@ -1,12 +1,12 @@
-package com.romanventskus.telegram.framework.states;
+package com.romanventskus.bot.framework.states;
 
 import com.google.common.collect.Sets;
 
-import com.romanventskus.telegram.framework.Message;
-import com.romanventskus.telegram.framework.State;
-import com.romanventskus.telegram.framework.StateProvider;
-import com.romanventskus.telegram.framework.channel.OutputChannel;
-import com.romanventskus.telegram.framework.questions.Question;
+import com.romanventskus.bot.framework.Message;
+import com.romanventskus.bot.framework.channel.OutputChannel;
+import com.romanventskus.bot.framework.questions.Question;
+import com.romanventskus.bot.framework.State;
+import com.romanventskus.bot.framework.StateProvider;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,15 +33,15 @@ public class StartState extends State {
     @Override
     public State handle(Message message) {
         if (!whatIsYourName.isAnswered()) {
-            ask(whatIsYourName);
+            ask(whatIsYourName, message.getUser());
             return this;
         }
         if (!whatIsYourAge.isAnswered()) {
-            ask(whatIsYourAge);
+            ask(whatIsYourAge, message.getUser());
             return this;
         }
-        outputChannel.send("Your name is " + whatIsYourName.getAnswer());
-        outputChannel.send("Your age is " + whatIsYourAge.getAnswer());
+        outputChannel.send("Your name is " + whatIsYourName.getAnswer(), message.getUser());
+        outputChannel.send("Your age is " + whatIsYourAge.getAnswer(), message.getUser());
         return new SecondState(outputChannel, stateProvider);
     }
 

@@ -1,11 +1,10 @@
-package com.romanventskus.telegram.framework;
+package com.romanventskus.bot.framework;
 
-import com.romanventskus.telegram.framework.channel.OutputChannel;
-import com.romanventskus.telegram.framework.questions.Question;
+import com.romanventskus.bot.framework.channel.OutputChannel;
+import com.romanventskus.bot.framework.questions.Question;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
 public abstract class State {
@@ -43,7 +42,7 @@ public abstract class State {
             currentQuestion = null;
             return handle(message);
         } else {
-            outputChannel.send(currentQuestion.getInvalidMessage());
+            outputChannel.send(currentQuestion.getInvalidMessage(), message.getUser());
             return this;
         }
     }
@@ -52,8 +51,8 @@ public abstract class State {
 
     abstract public Map<String, Supplier<State>> getCommands();
 
-    protected void ask(Question question) {
+    protected void ask(Question question, User user) {
         currentQuestion = question;
-        outputChannel.send(question.getText());
+        outputChannel.send(question.getText(), user);
     }
 }

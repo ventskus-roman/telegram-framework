@@ -1,7 +1,7 @@
-package com.romanventskus.telegram.framework;
+package com.romanventskus.bot.framework;
 
-import com.romanventskus.telegram.framework.channel.OutputChannel;
-import com.romanventskus.telegram.framework.states.StartState;
+import com.romanventskus.bot.framework.channel.OutputChannel;
+import com.romanventskus.bot.framework.states.StartState;
 
 import java.util.HashMap;
 import java.util.Map;
