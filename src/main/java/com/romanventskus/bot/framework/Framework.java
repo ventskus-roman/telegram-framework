@@ -25,6 +25,7 @@ public class Framework {
         stateProvider.setNewState(message.getUser(), newState);
         //process new state if change
         if (state != newState) {
+            state.clear();
             process(message);
         }
     }

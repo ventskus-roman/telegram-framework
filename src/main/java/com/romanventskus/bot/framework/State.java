@@ -35,6 +35,10 @@ public abstract class State {
         }
     }
 
+    public void clear() {
+        getQuestions().forEach(question -> question.setAnswer(null));
+    }
+
     private State processQuestion(Message message) {
         boolean valid = currentQuestion.getValidator().test(message.getText());
         if (valid) {
