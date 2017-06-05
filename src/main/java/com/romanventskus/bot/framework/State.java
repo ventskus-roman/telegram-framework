@@ -7,14 +7,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
-public abstract class State {
+public abstract class State<OUTPUT_CHANNEL extends OutputChannel> {
 
     protected Question currentQuestion;
 
-    protected OutputChannel outputChannel;
+    protected OUTPUT_CHANNEL outputChannel;
     protected StateProvider stateProvider;
 
-    public State(OutputChannel outputChannel, StateProvider stateProvider) {
+    public State(OUTPUT_CHANNEL outputChannel, StateProvider stateProvider) {
         this.outputChannel = outputChannel;
         this.stateProvider = stateProvider;
     }

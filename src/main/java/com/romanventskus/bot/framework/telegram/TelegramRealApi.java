@@ -1,12 +1,14 @@
 package com.romanventskus.bot.framework.telegram;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
+
+import lombok.Getter;
+import lombok.Setter;
 
 
 /**
@@ -25,10 +27,15 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot {
     public abstract String getBotToken();
 
     public void send(TelegramUser user, String text) throws TelegramApiException {
+        send(user, text, null);
+    }
+
+    public void send(TelegramUser user, String text, ReplyKeyboard markup) throws TelegramApiException {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setText(text);
         sendMessage.setChatId(user.getId());
+        sendMessage.setReplyMarkup(markup);
         sendApiMethod(sendMessage);
     }
 

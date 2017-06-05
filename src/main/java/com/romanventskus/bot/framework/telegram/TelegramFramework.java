@@ -1,17 +1,12 @@
 package com.romanventskus.bot.framework.telegram;
 
 import com.romanventskus.bot.framework.Framework;
-import com.romanventskus.bot.framework.Message;
 import com.romanventskus.bot.framework.StateProvider;
-import com.romanventskus.bot.framework.StateProviderImpl;
 import com.romanventskus.bot.framework.channel.OutputChannel;
-import com.romanventskus.bot.framework.configuration.TelegramOutputChannel;
 import com.romanventskus.bot.framework.configuration.TelegramRealApiImpl;
 import lombok.Getter;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
-import org.telegram.telegrambots.api.objects.Update;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
 /**

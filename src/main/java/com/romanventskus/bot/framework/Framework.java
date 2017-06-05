@@ -26,6 +26,7 @@ public class Framework {
         //process new state if change
         if (state != newState) {
             state.clear();
+            newState.clear();
             process(message);
         }
     }
