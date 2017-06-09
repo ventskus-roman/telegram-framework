@@ -1,5 +1,7 @@
 package com.romanventskus.bot.framework;
 
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,8 +9,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Message {
+public class OutputMessage {
 
-    private Sender sender;
+    private User recipient;
     private String text;
+    private ReplyKeyboard replyKeyboard;
+
 }

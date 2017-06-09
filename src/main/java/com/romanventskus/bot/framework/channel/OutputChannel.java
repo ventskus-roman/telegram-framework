@@ -1,11 +1,11 @@
 package com.romanventskus.bot.framework.channel;
 
-import com.romanventskus.bot.framework.User;
+import com.romanventskus.bot.framework.OutputMessage;
 
 /**
  * @author r.ventskus
  */
 public interface OutputChannel {
 
-    void send(String message, User user);
+    void send(OutputMessage message);
 }

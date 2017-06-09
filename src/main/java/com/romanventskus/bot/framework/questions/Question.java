@@ -1,5 +1,7 @@
 package com.romanventskus.bot.framework.questions;
 
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
+
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -17,9 +19,10 @@ public class Question<T> {
     private String text;
     private String invalidMessage;
     private Predicate<String> validator;
-    private Function<String, T> convertor;
+    private Function<String, T> converter;
     @Setter
     private T answer;
+    private ReplyKeyboard replyKeyboard;
 
     public Question(String name, String text, String invalidMessage, Predicate<String> validator) {
         this.name = name;
@@ -28,9 +31,15 @@ public class Question<T> {
         this.validator = validator;
     }
 
-    public Question(String name, String text, String invalidMessage, Predicate<String> validator, Function<String, T> convertor) {
+    public Question(String name, String text, String invalidMessage, Predicate<String> validator, ReplyKeyboard replyKeyboard) {
         this(name, text, invalidMessage, validator);
-        this.convertor = convertor;
+        this.replyKeyboard = replyKeyboard;
+    }
+
+
+    public Question(String name, String text, String invalidMessage, Predicate<String> validator, Function<String, T> converter) {
+        this(name, text, invalidMessage, validator);
+        this.converter = converter;
     }
 
     public boolean isAnswered() {
@@ -41,10 +50,10 @@ public class Question<T> {
         if (answer == null) {
             this.answer = null;
         } else {
-            if (convertor == null) {
+            if (converter == null) {
                 this.answer = (T) answer;
             } else {
-                this.answer = convertor.apply(answer);
+                this.answer = converter.apply(answer);
             }
         }
     }

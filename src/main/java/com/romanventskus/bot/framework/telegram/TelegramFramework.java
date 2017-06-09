@@ -2,12 +2,14 @@ package com.romanventskus.bot.framework.telegram;
 
 import com.romanventskus.bot.framework.Framework;
 import com.romanventskus.bot.framework.StateProvider;
-import com.romanventskus.bot.framework.channel.OutputChannel;
+import com.romanventskus.bot.framework.UserStore;
 import com.romanventskus.bot.framework.configuration.TelegramRealApiImpl;
-import lombok.Getter;
+
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
+
+import lombok.Getter;
 
 /**
  * Created by romanventskus on 29.05.17.
@@ -21,27 +23,36 @@ public abstract class TelegramFramework {
 
     private TelegramInputChannel inputChannel;
     private TelegramOutputChannel outputChannel;
-    private StateProvider stateProvider;
 
-    public TelegramFramework(String userName, String token) {
+    public TelegramFramework(String userName, String token, StateProvider stateProvider, UserStore userStore) {
         assert userName != null;
         assert token != null;
+        assert stateProvider != null;
+        assert userStore != null;
 
         try {
-            TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
             inputChannel = new TelegramInputChannel();
-            TelegramRealApi telegramRealApi = new TelegramRealApiImpl(inputChannel, userName, token);
+
+            TelegramRealApi telegramRealApi = getTelegramRealApi(userName, token);
+
             outputChannel = new TelegramOutputChannel(telegramRealApi);
-            stateProvider = getStateProvider(outputChannel);
+            userStore = getUserStore();
             Framework framework = new Framework(inputChannel,
-                    outputChannel, stateProvider);
+                    outputChannel, stateProvider, userStore);
             framework.start();
-            telegramBotsApi.registerBot(telegramRealApi);
+
         } catch (TelegramApiRequestException e) {
             throw new RuntimeException(e);
         }
     }
 
-    protected abstract StateProvider getStateProvider(OutputChannel outputChannel);
+    protected abstract UserStore getUserStore();
+
+    private TelegramRealApi getTelegramRealApi(String userName, String token) throws TelegramApiRequestException {
+        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+        TelegramRealApi telegramRealApi = new TelegramRealApiImpl(inputChannel, userName, token);
+        telegramBotsApi.registerBot(telegramRealApi);
+        return telegramRealApi;
+    }
 
 }

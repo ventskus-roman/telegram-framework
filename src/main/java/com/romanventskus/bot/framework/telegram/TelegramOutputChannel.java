@@ -1,10 +1,10 @@
 package com.romanventskus.bot.framework.telegram;
 
+import com.romanventskus.bot.framework.OutputMessage;
 import com.romanventskus.bot.framework.User;
 import com.romanventskus.bot.framework.channel.OutputChannel;
 
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 /**
@@ -21,13 +21,13 @@ public class TelegramOutputChannel implements OutputChannel {
     }
 
     @Override
-    public void send(String message, User user) {
-        send(message, new ReplyKeyboardMarkup(), user);
-    }
-
-    public void send(String message, ReplyKeyboard markup, User user) {
+    public void send(OutputMessage message) {
         try {
-            telegramRealApi.send((TelegramUser) user, message, markup);
+            User recipient = message.getRecipient();
+            String text = message.getText();
+            ReplyKeyboard replyKeyboard = message.getReplyKeyboard();
+
+            telegramRealApi.send(recipient, text, replyKeyboard);
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }

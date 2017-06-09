@@ -1,7 +1,7 @@
 package com.romanventskus.bot.framework.channel;
 
-import com.romanventskus.bot.framework.User;
 import com.romanventskus.bot.framework.Message;
+import com.romanventskus.bot.framework.Sender;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.util.function.Consumer;
  */
 public class ConsoleInputChannel implements InputChannel {
 
-    User user = new User(){};
+    Sender sender = new Sender(1L){};
 
     @Override
     public void listen(Consumer<Message> process) {
@@ -23,7 +23,7 @@ public class ConsoleInputChannel implements InputChannel {
         while (line.equalsIgnoreCase("quit") == false) {
             try {
                 line = in.readLine();
-                process.accept(new Message(user, line));
+                process.accept(new Message(sender, line));
             } catch (IOException e) {
                 e.printStackTrace();
             }

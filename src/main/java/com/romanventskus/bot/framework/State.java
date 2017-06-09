@@ -1,27 +1,36 @@
 package com.romanventskus.bot.framework;
 
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
 import com.romanventskus.bot.framework.channel.OutputChannel;
 import com.romanventskus.bot.framework.questions.Question;
+
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
-public abstract class State<OUTPUT_CHANNEL extends OutputChannel> {
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+public abstract class State<OUTPUT_CHANNEL extends OutputChannel, T extends User> {
 
     protected Question currentQuestion;
 
-    protected OUTPUT_CHANNEL outputChannel;
-    protected StateProvider stateProvider;
+    @Setter
+    public OUTPUT_CHANNEL outputChannel;
 
-    public State(OUTPUT_CHANNEL outputChannel, StateProvider stateProvider) {
-        this.outputChannel = outputChannel;
-        this.stateProvider = stateProvider;
-    }
+    @Getter
+    private T user;
 
-    abstract protected State handle(Message message);
+    abstract protected State handle(Message message, T user);
 
-    public State process(Message message) {
+    public State process(Message message, T user) {
+        this.user = user;
         Supplier<State> command = getCommands().get(message.getText());
         boolean isCommand = command != null;
         if (isCommand) {
@@ -29,7 +38,7 @@ public abstract class State<OUTPUT_CHANNEL extends OutputChannel> {
             return newState;
         }
         if (currentQuestion == null) {
-            return handle(message);
+            return handle(message, user);
         } else {
             return processQuestion(message);
         }
@@ -44,19 +53,32 @@ public abstract class State<OUTPUT_CHANNEL extends OutputChannel> {
         if (valid) {
             currentQuestion.setAnswer(message.getText());
             currentQuestion = null;
-            return handle(message);
+            return handle(message, user);
         } else {
-            outputChannel.send(currentQuestion.getInvalidMessage(), message.getUser());
+            outputChannel.send(new OutputMessage(getUser(), currentQuestion.getInvalidMessage(), null));
             return this;
         }
     }
 
-    abstract public Set<Question> getQuestions();
+    public Set<Question> getQuestions() {
+        return Sets.newHashSet();
+    };
 
-    abstract public Map<String, Supplier<State>> getCommands();
+    public Map<String, Supplier<State>> getCommands() {
+        return Maps.newHashMap();
+    };
 
-    protected void ask(Question question, User user) {
+    protected void send(String message, ReplyKeyboard keyboard) {
+        OutputMessage outputMessage = new OutputMessage(getUser(), message, keyboard);
+        outputChannel.send(outputMessage);
+    }
+
+    protected void send(String message) {
+        send(message, null);
+    }
+
+    protected void ask(Question question) {
         currentQuestion = question;
-        outputChannel.send(question.getText(), user);
+        outputChannel.send(new OutputMessage(getUser(), question.getText(), question.getReplyKeyboard()));
     }
 }

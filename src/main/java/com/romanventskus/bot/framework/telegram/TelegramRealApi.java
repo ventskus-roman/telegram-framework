@@ -1,5 +1,7 @@
 package com.romanventskus.bot.framework.telegram;
 
+import com.romanventskus.bot.framework.User;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -26,11 +28,7 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot {
     @Override
     public abstract String getBotToken();
 
-    public void send(TelegramUser user, String text) throws TelegramApiException {
-        send(user, text, null);
-    }
-
-    public void send(TelegramUser user, String text, ReplyKeyboard markup) throws TelegramApiException {
+    public void send(User user, String text, ReplyKeyboard markup) throws TelegramApiException {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setText(text);

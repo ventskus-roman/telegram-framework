@@ -1,9 +1,10 @@
 package com.romanventskus.bot.framework.configuration;
 
 import com.romanventskus.bot.framework.Message;
+import com.romanventskus.bot.framework.Sender;
 import com.romanventskus.bot.framework.telegram.TelegramInputChannel;
 import com.romanventskus.bot.framework.telegram.TelegramRealApi;
-import com.romanventskus.bot.framework.telegram.TelegramUser;
+
 import org.telegram.telegrambots.api.objects.Update;
 
 /**
@@ -27,7 +28,7 @@ public class TelegramRealApiImpl extends TelegramRealApi {
 
     @Override
     public void onUpdateReceived(Update update) {
-        Message message = new Message(new TelegramUser(Long.valueOf((long)update.getMessage().getFrom().getId().intValue())), update.getMessage().getText());
+        Message message = new Message(new Sender(Long.valueOf((long)update.getMessage().getFrom().getId().intValue())), update.getMessage().getText());
         inputChannel.getConsumer().accept(message);
     }
 

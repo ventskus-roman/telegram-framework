@@ -3,10 +3,9 @@ package com.romanventskus.bot.framework.states;
 import com.google.common.collect.Sets;
 
 import com.romanventskus.bot.framework.Message;
-import com.romanventskus.bot.framework.channel.OutputChannel;
-import com.romanventskus.bot.framework.questions.Question;
 import com.romanventskus.bot.framework.State;
-import com.romanventskus.bot.framework.StateProvider;
+import com.romanventskus.bot.framework.User;
+import com.romanventskus.bot.framework.questions.Question;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,23 +25,19 @@ public class StartState extends State {
         }
     });
 
-    public StartState(OutputChannel outputChannel, StateProvider stateProvider) {
-        super(outputChannel, stateProvider);
-    }
-
     @Override
-    public State handle(Message message) {
+    public State handle(Message message, User user) {
         if (!whatIsYourName.isAnswered()) {
-            ask(whatIsYourName, message.getUser());
+            ask(whatIsYourName);
             return this;
         }
         if (!whatIsYourAge.isAnswered()) {
-            ask(whatIsYourAge, message.getUser());
+            ask(whatIsYourAge);
             return this;
         }
-        outputChannel.send("Your name is " + whatIsYourName.getAnswer(), message.getUser());
-        outputChannel.send("Your age is " + whatIsYourAge.getAnswer(), message.getUser());
-        return new SecondState(outputChannel, stateProvider);
+        send("Your name is " + whatIsYourName.getAnswer());
+        send("Your age is " + whatIsYourAge.getAnswer());
+        return new SecondState();
     }
 
     @Override

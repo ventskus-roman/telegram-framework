@@ -1,11 +1,11 @@
 package com.romanventskus.bot.framework;
 
-import lombok.EqualsAndHashCode;
-
 /**
  * @author r.ventskus
  */
 public interface User {
+
+    Long getId();
 
     boolean equals(Object o);
 
